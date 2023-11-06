@@ -1,0 +1,55 @@
+FROM node 
+#Uses node prebuilt image from dockerhub as base image
+
+WORKDIR /app
+#Sets our working dir to the app folder of the container and all commands that are run afterwards are going to be run inside of the app folder
+
+COPY . /app
+#COPY . . copies all files in the current folder(in this case node-js-starting-setup aside from Dockerfile) into the root folder of our container
+#COPY . /app does the same as . . but instead of copying into the root folder, it copies into the app folder of the container(creates one if it doesn't exist)
+
+RUN npm install
+#Installs all dependencies our container needs to run the node image
+
+EXPOSE 80
+#Because we have given a port value in the server.js file(app.listen(80)), we want to expose this port to our local machine 
+#Then we will be able to run the container so that it listens to this port
+#This is for documentation only but it is recommended that we add it every time
+
+#9b1037337566addc68cd72cf9c8c19c56cc464240e5d0bd28d9ef0120ed798e1 is the image name
+# if we just write docker run 9b1037337566addc68cd72cf9c8c19c56cc464240e5d0bd28d9ef0120ed798e1 it will run the container but we wont be able to see our website
+#That is why we write it like this:
+#docker run -p 3000:80 9b1037337566addc68cd72cf9c8c19c56cc464240e5d0bd28d9ef0120ed798e1
+#-p is for defining ports where 3000 is our local port(we can decide whatever number we want?) and 80 is the port we defined in server.js
+
+
+CMD ["node", "server.js"]
+#This command will run when the container is started, if we had used RUN it would've created a server each time an image is created
+
+
+#If u make a change inside of any files in the working folder, if you want to see these changes after running the container,
+#u need to write "docker build ." into the terminal to build a new image with these changes and then run the container 
+
+
+
+if we write the code like this
+
+FROM node 
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 80
+
+CMD ["node", "server.js"]
+
+we have optimized our code so that everything before line 45 doesn't need to be repeated on every build of image we make and only the last three commands repeat
+
+we have  thus minimized the time needed to build an image because npm install can take quite a while depending on our code
+
+You dont specifically need to be inside of the folder where the DockerFile is to run an image as a container

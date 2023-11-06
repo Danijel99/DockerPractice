@@ -1,0 +1,47 @@
+docker ps 
+    - Shows the current containers that are running
+docker ps -a 
+    show all containers whether running or not
+docker build .
+     - builds the docker container
+docker run/start sharp_greider 
+    - runs/starts the container with the corresponding name  (run starts the container in attached mode by default and start runs the container in detached mode)
+docker run  -p 4000:80 76eeffeea5aa
+     - runs the container with the id 76eeffeea5aa and sets the local port at 4000 and the container port at 80
+docker start -a sharp_greider 
+    - starts the container in attached mode instead of its default
+docker stop sharp_greider 
+    - shuts down the running container
+docker logs sharp_greider
+     - if in detached mode, this command shows the logs of the container sharp_greider
+docker rm sharp_greider
+     - removes/deletes the sharp_greider container, all containers that we want removed, need to be stopped beforehand
+docker container prune 
+    - removes all stopped containers at once
+docker images 
+    - shows all images on your hard drive
+docker rmi 178b012c2c69 
+    - removes the image with this ID(the image can be deleted only if it isn't used by any container, this also means that images of stopped containers can't be deleted)
+docker image prune 
+    - deletes all unused images 
+docker run -p 3000:80 -d  --rm 02729991ac8f
+     -  runs the container based on the image 02729991ac8f in detached mode, 
+        sets the ports and --rm means that after stopping the container it will automatically delete itself 
+docker image inspect 32d5f5d1a81c 
+    - inspects the image and gives all relevant data such as ID, Creation DT, Container, COntainerConfig, Layers, etc.....
+docker cp dummy/. wonderfull_burnell:/test 
+    - copies all files inside of dummy folder on our local machine into the test folder of the container(if there is none it is then created)
+docker cp dummy/test.txt wonderfull_burnell:/test 
+    - if we want a specific file inside of the folder copied into test folder of container
+docker cp wonderfull_burnell/test dummy 
+    - If we i.e delete test.txt inside of our local folder, this will then copy all files(in this case only test.txt)from the container folder
+      into our local folder
+docker cp wonderfull_burnell/test/test.txt dummy 
+    - if we want to copy specific file in test folder of container to our local dummy folder
+docker build -t goals:latest . 
+    - builds the container, -t lets us give a name:tag for our image, where the image name will be goals and tag will be latest
+docker image prune -a
+     - removes all images including tagged images
+docker run -p 3000:80 -d --rm --name goalsApp goals:latest
+     - runs the container goalsApp with the image under goals:latest name and tag
+
